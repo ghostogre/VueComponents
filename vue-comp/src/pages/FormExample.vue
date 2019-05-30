@@ -1,6 +1,6 @@
 <template>
  <div>
-   <i-form :model="formValidate" :rules="ruleValidate">
+   <i-form ref="form" :model="formValidate" :rules="ruleValidate">
      <i-form-item label="用户名" prop="name">
        <i-input v-model="formValidate.name"></i-input>
      </i-form-item>
@@ -8,20 +8,22 @@
        <i-input v-model="formValidate.mail"></i-input>
      </i-form-item>
    </i-form>
+   <button @click="handleSubmit">提交</button>
+   <button @click="handleReset">重置</button>
  </div>
 </template>
 
 <script>
-import iForm from '../components/IForm'
-import iFormItem from '../components/IFormItem'
-import iInput from '../components/IInput'
+import iForm from '../components/Form'
+import iFormItem from '../components/FormItem'
+import iInput from '../components/Input'
 export default {
   components: {
     iForm,
     iFormItem,
     iInput
   },
-  data() {
+  data () {
     return {
       formValidate: {
         name: '',
@@ -33,9 +35,23 @@ export default {
         ],
         mail: [
           { required: true, message: '邮箱不能为空', trigger: 'blur' },
-          { type: 'mail', message: '邮箱格式不正确', trigger: 'blur' }
+          { type: 'email', message: '邮箱格式不正确', trigger: 'blur' }
         ]
       }
+    }
+  },
+  methods: {
+    handleSubmit () {
+      this.$refs.form.validate((valid) => {
+        if (valid) {
+          window.alert('提交成功')
+        } else {
+          window.alert('表单校验失败')
+        }
+      })
+    },
+    handleReset () {
+      this.$refs.form.resetFields()
     }
   }
 }
