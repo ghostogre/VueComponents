@@ -3,6 +3,8 @@
 </template>
 
 <script>
+import Vue from 'vue'
+import random from '../utils/random_str'
 export default {
   props: {
     code: {
@@ -10,12 +12,17 @@ export default {
       default: ''
     }
   },
-  data() {
+  data () {
     return {
       html: '',
       css: '',
-      js: ''
+      js: '',
+      component: null,
+      id: random()
     }
+  },
+  mounted () {
+    this.renderCode()
   },
   methods: {
     getSources (source, type) {
@@ -35,6 +42,48 @@ export default {
       this.js = script
       this.css = style
       this.html = template
+    },
+    renderCode () {
+      this.splitCode()
+
+      if (this.html !== '' && this.js !== '') {
+        /* eslint-disable */
+        const parseStrToFunc = new Function(this.js)()
+
+        parseStrToFunc.template = this.html
+
+        const Component = Vue.extend(parseStrToFunc)
+        this.component = new Component().$mount()
+
+        this.$refs.display.appendChild(this.component.$el)
+      }
+
+      if (this.css !== '') {
+        const style = document.createDocument('style')
+        style.type = 'text/css'
+        style.id = this.id
+        style.innerHtml = this.css
+        document.getElementsByTagName('head')[0].appendChild(style)
+      }
+    },
+    destoryCode () {
+      const $target = document.getElementById(this.id)
+      if ($target) $target.parentNode.removeChild($target)
+
+      if (this.component) {
+        this.$refs.display.removeChild(this.component.$el)
+        this.component.$destory()
+        this.component = null
+      }
+    }
+  },
+  beforeDestroy () {
+    this.destoryCode()
+  },
+  watch: {
+    code () {
+      this.destoryCode()
+      this.renderCode()
     }
   }
 }
