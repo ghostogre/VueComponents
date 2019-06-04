@@ -12,7 +12,7 @@ export default {
   },
   data () {
     return {
-      code: '<template><div>{{message}}</div></template><script>export default {data() {return {message: "ok"}}}</script>'
+      code: '<template><div>{{message}}</div></template><script>export default {data() {return {message: "ok"}}}</scrip' + 't>'
     }
   }
 }

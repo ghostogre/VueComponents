@@ -72,7 +72,7 @@ export default {
 
       if (this.component) {
         this.$refs.display.removeChild(this.component.$el)
-        this.component.$destory()
+        this.component.$destroy()
         this.component = null
       }
     }

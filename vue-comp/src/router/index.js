@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Form from '@/pages/FormExample'
 import CheckBox from '@/pages/CheckBoxExample'
 import Display from '@/pages/Display'
+import Alert from '@/pages/Alert'
 
 Vue.use(Router)
 
@@ -22,6 +23,11 @@ export default new Router({
       path: '/display',
       name: 'display',
       component: Display
+    },
+    {
+      path: '/alert',
+      name: 'alert',
+      component: Alert
     }
   ]
 })
