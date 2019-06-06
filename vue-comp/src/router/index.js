@@ -4,6 +4,7 @@ import Form from '@/pages/FormExample'
 import CheckBox from '@/pages/CheckBoxExample'
 import Display from '@/pages/Display'
 import Alert from '@/pages/Alert'
+import TableRender from '@/pages/table-render'
 
 Vue.use(Router)
 
@@ -28,6 +29,11 @@ export default new Router({
       path: '/alert',
       name: 'alert',
       component: Alert
+    },
+    {
+      path: '/table-render',
+      name: 'table',
+      component: TableRender
     }
   ]
 })

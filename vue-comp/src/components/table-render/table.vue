@@ -6,15 +6,26 @@
       </tr>
     </thead>
     <tbody>
-      <tr v-for="(row, index) in data" :key="index">
-        <td v-for="col in columns" :key="index + col.key">{{row[col.key]}}</td>
+      <tr v-for="(row, rowIndex) in data" :key="rowIndex">
+        <td v-for="col in columns" :key="rowIndex + col.key">
+          <template v-if="'render' in col">
+            <Render :row="row" :column="col" :index="rowIndex" :render="col.render"></Render>
+          </template>
+          <template v-else>
+            {{row[col.key]}}
+          </template>
+        </td>
       </tr>
     </tbody>
   </table>
 </template>
 
 <script>
+import Render from './render.js'
 export default {
+  components: {
+    Render
+  },
   props: {
     columns: {
       type: Array,
